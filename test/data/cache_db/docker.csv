@@ -1,0 +1,10 @@
+ModelUrn,name,m_state,address,uuid,loaded
+model:TestModel,TestModel,0,/home/gempy/work/gempy_server/test/data/fault_test.pickle,2568c612-5cf0-4113-91e1-642adb5f2105,False
+model:TestModel2,TestModel2,0,/home/gempy/work/gempy_server/test/data/lisa-1.pickle,2568c612-5cf0-4113-91e1-642adb5f2106,False
+model:Graben,Graben,0,https://github.com/cgre-aachen/gempy_data/raw/master/data/gempy_models/viz_3d.zip,2568c612-5cf0-4113-91e1-642adb5f2106,False
+model:Mounster,Mounster,0,https://github.com/cgre-aachen/gempy_data/raw/master/data/gempy_models/MuensterSlim.zip,2568c612-5cf0-4113-91e1-642adb5f21gsg,False
+model:Perth,PerthBasin,0,https://github.com/cgre-aachen/gempy_data/raw/master/data/gempy_models/Perth_Basin.zip,2568c612-5cf0-4113-91e1-642adb5f2106,False
+model:Geenstone,Greenstone,0,https://github.com/cgre-aachen/gempy_data/raw/master/data/gempy_models/Greenstone.zip,2568c612-5cf0-4113-91e1-642adb5f2106,False
+model:Onlap,Onlap,0,https://github.com/cgre-aachen/gempy_data/raw/master/data/gempy_models/Onlap_relations.zip,2568c612-5cf0-4113-91e1-642adb5f2106,False
+model:Combination,Combination,0,https://github.com/cgre-aachen/gempy_data/raw/master/data/gempy_models/combination.zip,2568c612-5cf0-4113-91e1-642adb5f2106,False
+model:Alesmodel,Alesmodel,0,https://github.com/cgre-aachen/gempy_data/raw/master/data/gempy_models/Alesmodel.zip,2568c612-5cf0-4113-91e1-642adb5f2106,False

@@ -1,0 +1,14 @@
+# GemPy requirements for interpolation
+gempy
+# pandas
+# Theano>=1.0.4 # In windows use conda! This will install all the required compilers
+# numpy
+# scikit-image>=0.17
+# IPython
+flask
+flask_restx
+flask_cors
+marshmallow
+marshmallow_jsonschema
+requests
+pooch
