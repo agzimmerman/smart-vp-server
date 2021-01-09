@@ -1,7 +1,13 @@
+# Arrays
 numpy
 pandas
 xarray
-subsurface
+
+# subsurface
+git+https://github.com/softwareunderground/subsurface.git@mig_dev
+pyvista
+
+# Server
 flask
 flask_restx
 flask_cors
@@ -10,10 +16,14 @@ marshmallow_jsonschema
 requests
 pooch
 
-# For well data
+
+
+# For well
 git+https://github.com/Leguark/welly.git
 git+https://github.com/Leguark/striplog.git
 
+
+# Smart vp
 scikit-learn
 mysqlclient
 sqlalchemy

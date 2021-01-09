@@ -9,8 +9,7 @@ from marshmallow_jsonschema import JSONSchema
 
 # Importing modules
 from .schemas import ModelsSchema, ModelSchemeDelete, OperationSchema
-from ...logic.func_api import OperationController, db, GemPyController
-
+from ...logic.func_api import OperationController, db
 
 # Defining models
 
@@ -28,8 +27,6 @@ models_schema_input_doc = api_ns_geomodels.schema_model(
 
 # Business logic classes
 operation_controller = OperationController()
-gempy_controller = GemPyController(operation_controller)
-
 
 # TODO operations has to be a dictionary with keys: operationUrn!
 operation_status = dict() # running or finished

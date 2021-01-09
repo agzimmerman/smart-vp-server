@@ -36,6 +36,7 @@ ENV FLASK_APP /home/$NB_USER/SMART_VP_server/app/wsgi.py
 
 WORKDIR /home/$NB_USER/SMART_VP_server/app
 
+RUN cd /home/$NB_USER/SMART_VP_server && pip install .
+
 EXPOSE 5000
-RUN  cd /home/gempy/SMART_VP_server
 ENTRYPOINT ["tini", "--", "python", "wsgi.py"]

@@ -1,7 +1,6 @@
 import pathlib
 import os
 # os.environ["THEANO_FLAGS"] = "mode=FAST_RUN,device=cuda"
-import gempy as gp
 import pandas as pd
 import uuid as uuid_m
 from typing import Union
@@ -134,45 +133,6 @@ class ModelLoader:
 
         self.model_db = model_db
 
-    def load_model(self, name: Union[str, int]):
-        """Method that looks in the database index and loads a stored
-         Model object
-
-        Args:
-            name: Name given to the entry
-            set_active: If true set active the loaded model
-
-        Returns:
-
-        """
-
-        # Mark the model loaded
-        self.model_db.df.loc[name, 'loaded'] = True
-
-        # Get the necessary attributes
-        address = self.model_db.df.loc[name, 'address']
-        urn = self.model_db.df.loc[name, 'uuid']
-
-        p = pathlib.Path(address)
-        if p.suffix == '.zip':
-            try:
-                model_file = pooch.retrieve(url=address,
-                                            known_hash=None, path=os.getcwd()+".cache")
-
-                geo_model = gp.load_model(name=p.stem, path=model_file, recompile=True)
-            except PermissionError:
-                raise AttributeError('The address is not pointing to a valid GemPy model.'
-                                     'Either pickle or zip.')
-        elif p.suffix == '.pickle':
-            try:
-               geo_model = gp.load_model_pickle(address)
-            except PermissionError:
-                raise AttributeError('The address is not pointing to a valid GemPy model.'
-                                     'Either pickle or zip.')
-
-        self.urn_dict[urn] = geo_model
-
-        return geo_model, urn
 
     def get_models(self):
         return self.model_db.df
