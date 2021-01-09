@@ -10,4 +10,5 @@ api = Api(
 )
 
 api.add_namespace(api_ns_geomodels)
+api.add_namespace(api_ns_smart_vp)
 

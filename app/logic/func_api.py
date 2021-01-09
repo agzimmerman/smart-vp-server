@@ -25,12 +25,12 @@ class OperationController:
             raise KeyError('Operations needs a name.')
 
         if operation_name == 'edit':
-            self.edit(**kwargs['parameters'])
+            self.editGemPy(**kwargs['parameters'])
 
         elif operation_name == 'load':
-            self.load(**kwargs['parameters'])
+            self.loadGemPy(**kwargs['parameters'])
 
-    def load(self, **param):
+    def loadGemPy(self, **param):
         try:
             modelUrn = param.get('modelUrn')
             loader = ModelLoader(db)
@@ -50,7 +50,7 @@ class OperationController:
             print('The address to the model is wrong: ' + str(e))
             return {'The address to the model is wrong: ' + str(e), 400}
 
-    def edit(self, **param):
+    def editGemPy(self, **param):
         """Edit the gempy geomodel compute the model and create rexfile
 
         Notes:
@@ -88,6 +88,7 @@ class OperationController:
 
         """
         db.df.loc[modelUrn, "m_state"] += 1
+
 
 
 class GemPyController:

@@ -76,7 +76,7 @@ class TestIO:
 
     def test_get_input(self, app):
         gempy_controller = GemPyController()
-        gempy_controller.operation_controller.load(**{
+        gempy_controller.operation_controller.loadGemPy(**{
             'modelUrn': 'model:TestModel'
         })
 

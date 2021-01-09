@@ -1,6 +1,5 @@
 # Rest libraries
 from flask import json, request, Response
-# from app.logic.model_manager import ModelsIndex
 from app.apis.namespaces import api_ns_geomodels
 from flask_restx import Resource
 from marshmallow import ValidationError
@@ -94,128 +93,128 @@ class GeoModelView(Resource):
         db.delete_entry(geoModelUrn)
         return db.df.to_json(orient='index'), 200
 
-
-@api_ns_geomodels.route('/<string:geoModelUrn>/operations')
-class GeoModelsOperationsView(Resource):
-    @api_ns_geomodels.doc(body=op_schema_doc,
-                          responses={202: 'Operation Urn'})
-    def post(self, geoModelUrn):
-        """Applies an operation. All the model manipulation happen here.
-        body is a json
-
-        :returns
-            Operation Urn
-        """
-        # Parsing json and validating
-        json_data = request.get_json()
-        print(json_data)
-        # Check body exist
-        if not json_data:
-            return {"message": "No input data provided"}, 400
-
-        # Check format of the body
-        try:
-            json_data = op_schema.load(json_data)
-        except ValidationError as err:
-            return err.messages, 422
-
-        operation_status[json_data['op_urn']] = 'running'
-
-        # Need a parser function: That decide what to do with each operation
-        try:
-            operation_controller.parse(**json_data)
-        except Exception as err:
-            return {'Error raised during processing: ': err}, 400
-
-        operation_status[json_data['op_urn']] = 'finished'
-        print(json_data['op_urn'])
-        # Probably I can pass back the operation urn without having the deserialize it
-        return {'Operation Urn': json_data['op_urn']}, 202
-
-
-@api_ns_geomodels.route('/<string:geoModelUrn>/operations/<string:opUrn>/status')
-class GeoModelsStatusView(Resource):
-    @api_ns_geomodels.doc(body=op_schema_doc,
-                          responses={200: 'Operation Urn Status: running | finished'})
-    def get(self, geoModelUrn, opUrn):
-        """Returns the status of the last operation.
-        This could be also reduced to /<string:modelUrn>/operations/<string:opUrn>/ but
-        I can envision other actions - e.g. cancel - to be aplied to an operation
-        """
-        return {'OpStatus': operation_status[opUrn]}
-
-
-@api_ns_geomodels.route('/<string:geoModelUrn>/output')
-class GeoModelsOutputView(Resource):
-    @api_ns_geomodels.doc(body=None, # TODO add schema to filte data
-                          responses={200: 'Rexfile - binary'})
-    def get(self, geoModelUrn):
-        """Get the rexfile with the computed geological model. With a payload (to be defined) we
-        can filter how much data we return, by default output mesh"""
-
-        # TODO Adding the filtering of data using a payload
-        # Parsing json and validating
-
-        # json_data = request.get_json()
-        # print(json_data)
-        # # Check body exist
-        # if not json_data:
-        #     return {"message": "No input data provided"}, 400
-
-        try:
-            # TODO: At some point I am going to need a similar wrapper as OperationsController
-            #  Maybe I/OController or something like that
-            # Rexfile per surface: rex_bytes = gp.geomodel_to_rex(operation_controller.geo_models_dict[geoModelUrn])
-            rex_bytes = gempy_controller.encode_rex(geoModelUrn)
-        # Error: model not loaded
-        except KeyError as err:
-            return {'message': 'No model is loaded yet. Use /operations - to load a model'
-                               ' first: ' + str(err)}, 428
-
-        # except KeyError as err:
-        #     return {'message': 'Model not found. Have you loaded first' + str(err)}, 428
-        #
-        # I think this is model not computed
-        except RuntimeError as err:
-            return err, 428
-
-        # Rexfile per surface: rpn = list(rex_bytes.values())[0]
-        rpn = Response(rex_bytes, status=200)
-        rpn.headers['geo_modelUrn'] = db.df.loc[geoModelUrn, 'm_state']
-
-        return rpn
-
-
-@api_ns_geomodels.route('/<string:geoModelUrn>/input')
-class GeoModelsInputView(Resource):
-    @api_ns_geomodels.doc(body=None,  # TODO add schema to filte data
-                          responses={200: 'json'})
-    def get(self, geoModelUrn):
-        """Get gempy input data in json. With a payload (to be defined) we can
-        filter how much data is sent"""
-
-        # TODO send payload to filter data
-            # Parsing json and validating
-
-            # json_data = request.get_json()
-            # print(json_data)
-            # # Check body exist
-            # if not json_data:
-            #     return {"message": "No input data provided"}, 400
-        try:
-            input_json = gempy_controller.input_data_to_json(geoModelUrn,
-                                                             data_list=None)
-        except KeyError as err:
-            return {'message': 'No model is loaded yet. Use /operations - to load a model'
-                               ' first: ' + str(err)}, 428
-        print(input_json)
-        rpn = Response(json.dumps(input_json), 200, content_type='application/json')
-        rpn.headers['model_state'] = db.df.loc[geoModelUrn, 'm_state']
-        return rpn
-
-
-@api_ns_geomodels.route('/<string:geoModelUrn>/mesh')
-class GeoModelsMeshView(Resource):
-    def post(self, geoModelUrn):
-        """Send from the client a rexfile. This is useful to load meshes data files
-        from the clent. (not part of v 0.1)"""
+# --- Unused in the server
+# @api_ns_geomodels.route('/<string:geoModelUrn>/operations')
+# class GeoModelsOperationsView(Resource):
+#     @api_ns_geomodels.doc(body=op_schema_doc,
+#                           responses={202: 'Operation Urn'})
+#     def post(self, geoModelUrn):
+#         """Applies an operation. All the model manipulation happen here.
+#         body is a json
+#
+#         :returns
+#             Operation Urn
+#         """
+#         # Parsing json and validating
+#         json_data = request.get_json()
+#         print(json_data)
+#         # Check body exist
+#         if not json_data:
+#             return {"message": "No input data provided"}, 400
+#
+#         # Check format of the body
+#         try:
+#             json_data = op_schema.load(json_data)
+#         except ValidationError as err:
+#             return err.messages, 422
+#
+#         operation_status[json_data['op_urn']] = 'running'
+#
+#         # Need a parser function: That decide what to do with each operation
+#         try:
+#             operation_controller.parse(**json_data)
+#         except Exception as err:
+#             return {'Error raised during processing: ': err}, 400
+#
+#         operation_status[json_data['op_urn']] = 'finished'
+#         print(json_data['op_urn'])
+#         # Probably I can pass back the operation urn without having the deserialize it
+#         return {'Operation Urn': json_data['op_urn']}, 202
+#
+#
+# @api_ns_geomodels.route('/<string:geoModelUrn>/operations/<string:opUrn>/status')
+# class GeoModelsStatusView(Resource):
+#     @api_ns_geomodels.doc(body=op_schema_doc,
+#                           responses={200: 'Operation Urn Status: running | finished'})
+#     def get(self, geoModelUrn, opUrn):
+#         """Returns the status of the last operation.
+#         This could be also reduced to /<string:modelUrn>/operations/<string:opUrn>/ but
+#         I can envision other actions - e.g. cancel - to be aplied to an operation
+#         """
+#         return {'OpStatus': operation_status[opUrn]}
+#
+#
+# @api_ns_geomodels.route('/<string:geoModelUrn>/output')
+# class GeoModelsOutputView(Resource):
+#     @api_ns_geomodels.doc(body=None, # TODO add schema to filte data
+#                           responses={200: 'Rexfile - binary'})
+#     def get(self, geoModelUrn):
+#         """Get the rexfile with the computed geological model. With a payload (to be defined) we
+#         can filter how much data we return, by default output mesh"""
+#
+#         # TODO Adding the filtering of data using a payload
+#         # Parsing json and validating
+#
+#         # json_data = request.get_json()
+#         # print(json_data)
+#         # # Check body exist
+#         # if not json_data:
+#         #     return {"message": "No input data provided"}, 400
+#
+#         try:
+#             # TODO: At some point I am going to need a similar wrapper as OperationsController
+#             #  Maybe I/OController or something like that
+#             # Rexfile per surface: rex_bytes = gp.geomodel_to_rex(operation_controller.geo_models_dict[geoModelUrn])
+#             rex_bytes = gempy_controller.encode_rex(geoModelUrn)
+#         # Error: model not loaded
+#         except KeyError as err:
+#             return {'message': 'No model is loaded yet. Use /operations - to load a model'
+#                                ' first: ' + str(err)}, 428
+#
+#         # except KeyError as err:
+#         #     return {'message': 'Model not found. Have you loaded first' + str(err)}, 428
+#         #
+#         # I think this is model not computed
+#         except RuntimeError as err:
+#             return err, 428
+#
+#         # Rexfile per surface: rpn = list(rex_bytes.values())[0]
+#         rpn = Response(rex_bytes, status=200)
+#         rpn.headers['geo_modelUrn'] = db.df.loc[geoModelUrn, 'm_state']
+#
+#         return rpn
+#
+#
+# @api_ns_geomodels.route('/<string:geoModelUrn>/input')
+# class GeoModelsInputView(Resource):
+#     @api_ns_geomodels.doc(body=None,  # TODO add schema to filte data
+#                           responses={200: 'json'})
+#     def get(self, geoModelUrn):
+#         """Get gempy input data in json. With a payload (to be defined) we can
+#         filter how much data is sent"""
+#
+#         # TODO send payload to filter data
+#             # Parsing json and validating
+#
+#             # json_data = request.get_json()
+#             # print(json_data)
+#             # # Check body exist
+#             # if not json_data:
+#             #     return {"message": "No input data provided"}, 400
+#         try:
+#             input_json = gempy_controller.input_data_to_json(geoModelUrn,
+#                                                              data_list=None)
+#         except KeyError as err:
+#             return {'message': 'No model is loaded yet. Use /operations - to load a model'
+#                                ' first: ' + str(err)}, 428
+#         print(input_json)
+#         rpn = Response(json.dumps(input_json), 200, content_type='application/json')
+#         rpn.headers['model_state'] = db.df.loc[geoModelUrn, 'm_state']
+#         return rpn
+#
+#
+# @api_ns_geomodels.route('/<string:geoModelUrn>/mesh')
+# class GeoModelsMeshView(Resource):
+#     def post(self, geoModelUrn):
+#         """Send from the client a rexfile. This is useful to load meshes data files
+#         from the clent. (not part of v 0.1)"""
