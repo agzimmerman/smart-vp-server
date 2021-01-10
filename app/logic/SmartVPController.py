@@ -14,6 +14,7 @@ wells_df = read_borehole_file(
             root_path / 'tests/data/kimberlina/doggr_jlw_vedder_final.utm.dat',
             fix_df=True)
 
+
 class SmartVPController:
     @staticmethod
     def file_to_subsurface_wells():
@@ -38,8 +39,7 @@ class SmartVPController:
     def file_to_subsurface_collars():
 
         unstruct_collars = pandas_to_collars(wells_df)
-        ss.interfaces.base_structs_to_binary_file('VP_challenge_wells_collars_order_F',
-                                                  unstruct_collars)
+        return unstruct_collars.to_binary(order='F')
 
     @staticmethod
     def file_to_subsurface_surfaces():

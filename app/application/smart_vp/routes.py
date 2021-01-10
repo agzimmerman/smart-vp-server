@@ -49,11 +49,11 @@ class SmartWellsView1(Resource):
         filter how much data is sent"""
 
         try:
-            wells_json = smart_vp_controller.file_to_subsurface_wells()[1]
+            wells_dict = smart_vp_controller.file_to_subsurface_wells()[1]
         except KeyError as err:
             return {'message': str(err)}, 428
-        print(wells_json)
-        rpn = Response(wells_json, 200, content_type='application/json')
+        print(wells_dict)
+        rpn = Response(json.dumps(wells_dict), 200, content_type='application/json')
         # rpn.headers['model_state'] = db.df.loc[geoModelUrn, 'm_state']
         return rpn
 
@@ -83,11 +83,11 @@ class SmartVolumeView1(Resource):
         filter how much data is sent"""
 
         try:
-            wells_json = smart_vp_controller.file_to_subsurface_volume()[1]
+            volume_dict = smart_vp_controller.file_to_subsurface_volume()[1]
         except KeyError as err:
             return {'message': str(err)}, 428
-        print(wells_json)
-        rpn = Response(wells_json, 200, content_type='application/json')
+        print(volume_dict)
+        rpn = Response(json.dumps(volume_dict), 200, content_type='application/json')
         return rpn
 
 
@@ -100,10 +100,10 @@ class SmartVolumeView2(Resource):
         filter how much data is sent"""
 
         try:
-            wells_binary = smart_vp_controller.file_to_subsurface_volume()[0]
+            volume_binary = smart_vp_controller.file_to_subsurface_volume()[0]
         except KeyError as err:
             return {'message': str(err)}, 428
-        rpn = Response(wells_binary, 200)
+        rpn = Response(volume_binary, 200)
         return rpn
 
 
@@ -116,11 +116,11 @@ class SmartCollarsView1(Resource):
         filter how much data is sent"""
 
         try:
-            wells_json = smart_vp_controller.file_to_subsurface_collars()[1]
+            collars_dict = smart_vp_controller.file_to_subsurface_collars()[1]
         except KeyError as err:
             return {'message': str(err)}, 428
-        print(wells_json)
-        rpn = Response(wells_json, 200, content_type='application/json')
+        print(collars_dict)
+        rpn = Response(json.dumps(collars_dict), 200, content_type='application/json')
         return rpn
 
 
@@ -133,10 +133,10 @@ class SmartCollarsView2(Resource):
         filter how much data is sent"""
 
         try:
-            wells_binary = smart_vp_controller.file_to_subsurface_collars()[0]
+            collars_binary = smart_vp_controller.file_to_subsurface_collars()[0]
         except KeyError as err:
             return {'message': str(err)}, 428
-        rpn = Response(wells_binary, 200)
+        rpn = Response(collars_binary, 200)
         return rpn
 
 
@@ -149,11 +149,11 @@ class SmartSurfacesView1(Resource):
         filter how much data is sent"""
 
         try:
-            wells_json = smart_vp_controller.file_to_subsurface_surfaces()[1]
+            surfaces_dict = smart_vp_controller.file_to_subsurface_surfaces()[1]
         except KeyError as err:
             return {'message': str(err)}, 428
-        print(wells_json)
-        rpn = Response(wells_json, 200, content_type='application/json')
+        print(surfaces_dict)
+        rpn = Response(json.dumps(surfaces_dict), 200, content_type='application/json')
         return rpn
 
 
@@ -166,10 +166,10 @@ class SmartSurfacesView2(Resource):
         filter how much data is sent"""
 
         try:
-            wells_binary = smart_vp_controller.file_to_subsurface_surfaces()[0]
+            surfaces_binary = smart_vp_controller.file_to_subsurface_surfaces()[0]
         except KeyError as err:
             return {'message': str(err)}, 428
-        rpn = Response(wells_binary, 200)
+        rpn = Response(surfaces_binary, 200)
         return rpn
 
 
