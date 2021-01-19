@@ -1,0 +1,40 @@
+{
+  "model:Kimberlina": {
+    "urn": "model:Kimberlina",
+    "name": "Kimberlina",
+    "m_state": 0,
+    "address": null,
+    "uuid": "2568c612-5cf0-4113-91e1-642adb5f2105",
+    "loaded": false,
+    "extent": [275619.35353535, 3.23824838e+05,
+              3914124.95959596, 3.96179300e+06,
+                -3972.65773224, 3.13922533e+02],
+
+    "data_address": {
+      "gempy": [],
+      "wells": [
+        "so far is just a hack"
+      ],
+      "volume": [
+        "so far is just a hack"
+      ]
+    }
+  },
+  "model:Dynamic": {
+    "urn": "model:Dynamic",
+    "name": "Dynamic",
+    "m_state": 0,
+    "address": null,
+    "uuid": "2568c612-5cf0-4113-91e1-642adb5f2105",
+    "loaded": false,
+    "extent": [0, 1, 0, 1, 0 ,1],
+    "data_address": {
+      "gempy": [],
+      "wells": [
+      ],
+      "volume": [
+        "so far is just a hack"
+      ]
+    }
+  }
+}

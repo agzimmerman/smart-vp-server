@@ -40,6 +40,19 @@ op_schema_doc = api_ns_smart_vp.schema_model(
         'OperationSchema'])
 
 
+@api_ns_smart_vp.route('/')
+class GeoModelsIndexView(Resource):
+    @api_ns_smart_vp.doc()
+    def get(self):
+        """Returns a list of all geomodel available for loading"""
+        path = "/home/smartVP/SMART_VP_server/test/data/cache_db/workspace.json"
+        with open(path) as json_file:
+            data = json.load(json_file)
+
+        rpn = Response(json.dumps(data), 200, content_type='application/json')
+        return rpn
+
+
 @api_ns_smart_vp.route('/<string:geoModelUrn>/wells_header')
 class SmartWellsView1(Resource):
     @api_ns_smart_vp.doc(body=None,  # TODO add schema to filte data

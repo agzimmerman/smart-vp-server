@@ -23,10 +23,11 @@ class OperationController:
             raise KeyError('Operations needs a name.')
 
         if operation_name == 'edit':
-            self.editGemPy(**kwargs['parameters'])
-
+            # self.editGemPy(**kwargs['parameters'])
+            pass
         elif operation_name == 'load':
-            self.loadGemPy(**kwargs['parameters'])
+            # self.loadGemPy(**kwargs['parameters'])
+            pass
 
     @staticmethod
     def _add_model_state(modelUrn):

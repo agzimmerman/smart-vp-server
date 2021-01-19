@@ -90,57 +90,59 @@ class GeoModelView(Resource):
         db.delete_entry(geoModelUrn)
         return db.df.to_json(orient='index'), 200
 
+
 # --- Unused in the server
-# @api_ns_geomodels.route('/<string:geoModelUrn>/operations')
-# class GeoModelsOperationsView(Resource):
-#     @api_ns_geomodels.doc(body=op_schema_doc,
-#                           responses={202: 'Operation Urn'})
-#     def post(self, geoModelUrn):
-#         """Applies an operation. All the model manipulation happen here.
-#         body is a json
-#
-#         :returns
-#             Operation Urn
-#         """
-#         # Parsing json and validating
-#         json_data = request.get_json()
-#         print(json_data)
-#         # Check body exist
-#         if not json_data:
-#             return {"message": "No input data provided"}, 400
-#
-#         # Check format of the body
-#         try:
-#             json_data = op_schema.load(json_data)
-#         except ValidationError as err:
-#             return err.messages, 422
-#
-#         operation_status[json_data['op_urn']] = 'running'
-#
-#         # Need a parser function: That decide what to do with each operation
-#         try:
-#             operation_controller.parse(**json_data)
-#         except Exception as err:
-#             return {'Error raised during processing: ': err}, 400
-#
-#         operation_status[json_data['op_urn']] = 'finished'
-#         print(json_data['op_urn'])
-#         # Probably I can pass back the operation urn without having the deserialize it
-#         return {'Operation Urn': json_data['op_urn']}, 202
-#
-#
-# @api_ns_geomodels.route('/<string:geoModelUrn>/operations/<string:opUrn>/status')
-# class GeoModelsStatusView(Resource):
-#     @api_ns_geomodels.doc(body=op_schema_doc,
-#                           responses={200: 'Operation Urn Status: running | finished'})
-#     def get(self, geoModelUrn, opUrn):
-#         """Returns the status of the last operation.
-#         This could be also reduced to /<string:modelUrn>/operations/<string:opUrn>/ but
-#         I can envision other actions - e.g. cancel - to be aplied to an operation
-#         """
-#         return {'OpStatus': operation_status[opUrn]}
-#
-#
+@api_ns_geomodels.route('/<string:geoModelUrn>/operations')
+class GeoModelsOperationsView(Resource):
+    @api_ns_geomodels.doc(body=op_schema_doc,
+                          responses={202: 'Operation Urn'})
+    def post(self, geoModelUrn):
+        """Applies an operation. All the model manipulation happen here.
+        body is a json
+
+        :returns
+            Operation Urn
+        """
+        # Parsing json and validating
+        json_data = request.get_json()
+        print(json_data)
+        # Check body exist
+        if not json_data:
+            return {"message": "No input data provided"}, 400
+
+        # Check format of the body
+        try:
+            json_data = op_schema.load(json_data)
+        except ValidationError as err:
+            return err.messages, 422
+
+        operation_status[json_data['op_urn']] = 'running'
+
+        # Need a parser function: That decide what to do with each operation
+        try:
+            operation_controller.parse(**json_data)
+        except Exception as err:
+            return {'Error raised during processing: ': err}, 400
+
+        operation_status[json_data['op_urn']] = 'finished'
+        print(json_data['op_urn'])
+        # Probably I can pass back the operation urn without having the deserialize it
+        return {'Operation Urn': json_data['op_urn']}, 202
+
+
+@api_ns_geomodels.route('/<string:geoModelUrn>/operations/<string:opUrn>/status')
+class GeoModelsStatusView(Resource):
+    @api_ns_geomodels.doc(body=op_schema_doc,
+                          responses={200: 'Operation Urn Status: running | finished'})
+    def get(self, geoModelUrn, opUrn):
+        """Returns the status of the last operation.
+        This could be also reduced to /<string:modelUrn>/operations/<string:opUrn>/ but
+        I can envision other actions - e.g. cancel - to be aplied to an operation
+        """
+        return {'OpStatus': operation_status[opUrn]}
+
+# ---- This is GemPy Specific
+
 # @api_ns_geomodels.route('/<string:geoModelUrn>/output')
 # class GeoModelsOutputView(Resource):
 #     @api_ns_geomodels.doc(body=None, # TODO add schema to filte data

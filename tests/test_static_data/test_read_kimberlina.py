@@ -44,10 +44,14 @@ def test_interpolate_to_regular_grid():
                                                      'sg', 'xco2']])
 
     sd = interpolate_points_to_regular_grid(ud)
+    ss.interfaces.base_structs_to_binary_file('VP_challenge_volume_order_F',
+                                              sd)
 
     sg = ss.StructuredGrid(sd)
+
+
     mesh = ss.visualization.to_pyvista_grid(sg)
-    ss.visualization.pv_plot([mesh], image_2d=True)
+    ss.visualization.pv_plot([mesh], image_2d=False)
 
     return
 

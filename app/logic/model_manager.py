@@ -13,7 +13,7 @@ path_to_cache_default_test = os.path.dirname(__file__) + '/../../test/data/cache
 # To find the cache file in docker.csv
 file = Path(path_to_cache_default_test)
 if True:
-    path_to_cache_default = "/home/gempy/work/gempy_server/test/data/cache_db/"
+    path_to_cache_default = "/home/smartVP/SMART_VP_server/test/data/cache_db/"
 
 
 class ModelsIndex:
