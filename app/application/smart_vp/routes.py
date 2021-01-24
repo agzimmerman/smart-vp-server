@@ -45,7 +45,8 @@ class GeoModelsIndexView(Resource):
     @api_ns_smart_vp.doc()
     def get(self):
         """Returns a list of all geomodel available for loading"""
-        path = "/home/smartVP/SMART_VP_server/test/data/cache_db/workspace.json"
+        # path = "/home/smartVP/SMART_VP_server/test/data/cache_db/workspace.json"
+        path = r"H:\PycharmProjects\smart-vp-server\test\data\cache_db\workspace.json"
         with open(path) as json_file:
             data = json.load(json_file)
 
@@ -62,12 +63,13 @@ class SmartWellsView1(Resource):
         filter how much data is sent"""
 
         try:
-            wells_dict = smart_vp_controller.file_to_subsurface_wells()[1]
+            wells_dict = smart_vp_controller.file_to_subsurface_wells(geoModelUrn)[1]
+        except ValueError as err:
+            return {'message': str(err)}, 404
         except KeyError as err:
             return {'message': str(err)}, 428
         print(wells_dict)
         rpn = Response(json.dumps(wells_dict), 200, content_type='application/json')
-        # rpn.headers['model_state'] = db.df.loc[geoModelUrn, 'm_state']
         return rpn
 
 
@@ -80,7 +82,9 @@ class SmartWellsView2(Resource):
         filter how much data is sent"""
 
         try:
-            wells_binary = smart_vp_controller.file_to_subsurface_wells()[0]
+            wells_binary = smart_vp_controller.file_to_subsurface_wells(geoModelUrn)[0]
+        except ValueError as err:
+            return {'message': str(err)}, 404
         except KeyError as err:
             return {'message': str(err)}, 428
         rpn = Response(wells_binary, 200)
@@ -96,7 +100,9 @@ class SmartVolumeView1(Resource):
         filter how much data is sent"""
 
         try:
-            volume_dict = smart_vp_controller.file_to_subsurface_volume()[1]
+            volume_dict = smart_vp_controller.file_to_subsurface_volume(geoModelUrn)[1]
+        except ValueError as err:
+            return {'message': str(err)}, 404
         except KeyError as err:
             return {'message': str(err)}, 428
         print(volume_dict)
@@ -113,7 +119,9 @@ class SmartVolumeView2(Resource):
         filter how much data is sent"""
 
         try:
-            volume_binary = smart_vp_controller.file_to_subsurface_volume()[0]
+            volume_binary = smart_vp_controller.file_to_subsurface_volume(geoModelUrn)[0]
+        except ValueError as err:
+            return {'message': str(err)}, 404
         except KeyError as err:
             return {'message': str(err)}, 428
         rpn = Response(volume_binary, 200)
@@ -129,7 +137,9 @@ class SmartCollarsView1(Resource):
         filter how much data is sent"""
 
         try:
-            collars_dict = smart_vp_controller.file_to_subsurface_collars()[1]
+            collars_dict = smart_vp_controller.file_to_subsurface_collars(geoModelUrn)[1]
+        except ValueError as err:
+            return {'message': str(err)}, 404
         except KeyError as err:
             return {'message': str(err)}, 428
         print(collars_dict)
@@ -146,7 +156,9 @@ class SmartCollarsView2(Resource):
         filter how much data is sent"""
 
         try:
-            collars_binary = smart_vp_controller.file_to_subsurface_collars()[0]
+            collars_binary = smart_vp_controller.file_to_subsurface_collars(geoModelUrn)[0]
+        except ValueError as err:
+            return {'message': str(err)}, 404
         except KeyError as err:
             return {'message': str(err)}, 428
         rpn = Response(collars_binary, 200)
@@ -162,7 +174,9 @@ class SmartSurfacesView1(Resource):
         filter how much data is sent"""
 
         try:
-            surfaces_dict = smart_vp_controller.file_to_subsurface_surfaces()[1]
+            surfaces_dict = smart_vp_controller.file_to_subsurface_surfaces(geoModelUrn)[1]
+        except ValueError as err:
+            return {'message': str(err)}, 404
         except KeyError as err:
             return {'message': str(err)}, 428
         print(surfaces_dict)
@@ -179,9 +193,12 @@ class SmartSurfacesView2(Resource):
         filter how much data is sent"""
 
         try:
-            surfaces_binary = smart_vp_controller.file_to_subsurface_surfaces()[0]
+            surfaces_binary = smart_vp_controller.file_to_subsurface_surfaces(geoModelUrn)[0]
+        except ValueError as err:
+            return {'message': str(err)}, 404
         except KeyError as err:
             return {'message': str(err)}, 428
+
         rpn = Response(surfaces_binary, 200)
         return rpn
 

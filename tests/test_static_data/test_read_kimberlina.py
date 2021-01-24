@@ -5,8 +5,6 @@ from viz_platform.static_datasets.kimberlina.kemberlina_wells import \
 from viz_platform.static_datasets.kimberlina.kemberlina_volume import read_mesh_file, \
     read_attr_file, interpolate_points_to_regular_grid
 import subsurface as ss
-import pandas as pd
-import numpy as np
 
 
 def test_read_mesh():
@@ -63,9 +61,10 @@ def test_read_kimberlina_wells():
 
 
 def test_pandas_to_welly():
+    import matplotlib.pyplot as plt
     wells_df = test_read_kimberlina_wells()
     wells_unstructured_data = pandas_to_subsurface(wells_df)
-
+    plt.show()
     wells_element = ss.LineSet(wells_unstructured_data)
 
     # Pyvista mesh
@@ -77,7 +76,7 @@ def test_pandas_to_welly():
     # Plotting
     ss.visualization.pv_plot(
         [wells_mesh],
-        image_2d=True,
+        image_2d=False,
         ve=5
     )
 
@@ -99,7 +98,19 @@ def test_surfaces_to_subsurface():
     tri = ss.TriSurf(ud)
     mesh = ss.visualization.to_pyvista_mesh(tri)
 
-    ss.visualization.pv_plot([mesh], image_2d=True, ve=10)
+    ss.visualization.pv_plot([mesh], image_2d=False, ve=10)
+
+    return mesh
+
+
+def test_surfaces_to_subsurface_unity():
+    wells_df = test_read_kimberlina_wells()
+    ud = wells_to_subsurface_surfaces(wells_df, two_faces=True, switch_yz=True)
+
+    tri = ss.TriSurf(ud)
+    mesh = ss.visualization.to_pyvista_mesh(tri)
+
+    ss.visualization.pv_plot([mesh], image_2d=False, ve=10)
 
     return mesh
 
@@ -107,7 +118,7 @@ def test_surfaces_to_subsurface():
 def test_wells_and_surfaces():
     well_mesh = test_pandas_to_welly()
     surface_mesh = test_surfaces_to_subsurface()
-    ss.visualization.pv_plot([well_mesh, surface_mesh], image_2d=True, ve=3)
+    ss.visualization.pv_plot([well_mesh, surface_mesh], image_2d=False, ve=10)
 
 
 

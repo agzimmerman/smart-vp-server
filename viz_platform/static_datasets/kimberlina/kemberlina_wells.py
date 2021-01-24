@@ -1,5 +1,45 @@
+from typing import List
+
 import pandas as pd
 import subsurface as ss
+from striplog import Component
+
+formations = ["topo",
+              "etchegoin",
+              "macoma",
+              "chanac",
+              "mclure",
+              "santa_margarita",
+              "fruitvale",
+              "round_mountain",
+              "olcese",
+              "freeman_jewett",
+              "vedder",
+              "eocene",
+              "cretaceous",
+              "basement",
+              "null"]
+
+colors = dict([
+    ("topo", "#cecece"),
+    ("etchegoin", "#00c9d1"),
+    ("macoma", "#007c79"),
+    ("chanac", "#78007a"),
+    ("mclure", "#5263c4"),
+    ("santa_margarita", "#005c2a"),
+    ("fruitvale", "#da4f1f"),
+    ("round_mountain", "#3d270e"),
+    ("olcese", "#cc212d"),
+    ("freeman_jewett", "#ff74a8"),
+    ("vedder", "#ffff00"),
+    ("eocene", "#dc7c62"),
+    ("cretaceous", "#736d1c"),
+    ("basement", "#00b930")
+])
+
+#components = [Component({'lith': l, 'colour': c}) for l, c in zip(formations,
+# list(colors.values()))]
+components = [Component({'lith': l}) for l in formations]
 
 
 def read_borehole_file(path, fix_df=True):
@@ -18,42 +58,13 @@ def read_borehole_file(path, fix_df=True):
     if fix_df:
         df['name'] = df['name'] + df['num']
 
-        colors = dict([
-            ("topo", "#cecece"),
-            ("etchegoin", "#00c9d1"),
-            ("macoma", "#007c79"),
-            ("chanac", "#78007a"),
-            ("mclure", "#5263c4"),
-            ("santa_margarita", "#005c2a"),
-            ("fruitvale", "#da4f1f"),
-            ("round_mountain", "#3d270e"),
-            ("olcese", "#cc212d"),
-            ("freeman_jewett", "#ff74a8"),
-            ("vedder", "#ffff00"),
-            ("eocene", "#dc7c62"),
-            ("cretaceous", "#736d1c"),
-            ("basement", "#00b930")
-        ])
+
 
         n_fixed_columns = 11
         n_segments_per_well = 15
 
         n_wells = df.shape[0]
-        formations = ["topo",
-                      "etchegoin",
-                      "macoma",
-                      "chanac",
-                      "mclure",
-                      "santa_margarita",
-                      "fruitvale",
-                      "round_mountain",
-                      "olcese",
-                      "freeman_jewett",
-                      "vedder",
-                      "eocene",
-                      "cretaceous",
-                      "basement",
-                      "null"]
+
 
         # Repeat fixed rows (collar name and so)
         df_fixed = df.iloc[:, :n_fixed_columns]
@@ -89,7 +100,13 @@ def read_borehole_file(path, fix_df=True):
     return df
 
 
-def pandas_to_subsurface(df: pd.DataFrame):
+def pandas_to_subsurface(df: pd.DataFrame, table: List = None):
+    """
+
+    :param df:
+    :param table List[Striplog.Components]:
+    :return:
+    """
     from io import StringIO
     df_buffer = df.to_csv()
 
@@ -116,7 +133,7 @@ def pandas_to_subsurface(df: pd.DataFrame):
                             'formation': 'component lith',
                             }
         }
-        , n_points=40)
+        , n_points=40, return_welly=False, table=components)
 
     return unstruc
 
