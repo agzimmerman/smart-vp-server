@@ -6,7 +6,9 @@ $ SET GLOBAL sql_mode="";
 
 To build a Docker image (for example)
 
-  `docker build --no-cache -t zimmerman/smartvp` 
+  `cd smart-vp-server`
+  
+  `docker build --no-cache -t zimmerman/smartvp .` 
 
 To run the a container (for example)
 
