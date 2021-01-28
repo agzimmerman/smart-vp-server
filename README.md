@@ -4,11 +4,11 @@ $ /etc/init.d/mysql start
 $ mysql
 $ SET GLOBAL sql_mode="";
 
-To build the docker
+To build a Docker image (for example)
 
-To run the a container e.g.
+  `docker build --no-cache -t zimmerman/smartvp` 
 
-  `docker run  -p 5000:5000 --rm leguark/smartvp:v0.2.7`
+To run the a container (for example)
+
+  `docker run  -p 5000:5000 --rm zimmerman/smartvp`
   
-To build the container e.g.
-    `docker build --no-cache -t leguark/smartvp:v0.2.7 .` 
