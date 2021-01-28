@@ -1,9 +1,3 @@
-To start the mysql server you need to do the following steps
-
-$ /etc/init.d/mysql start
-$ mysql
-$ SET GLOBAL sql_mode="";
-
 To build a Docker image (for example)
 
     cd smart-vp-server
