@@ -6,5 +6,7 @@ $ SET GLOBAL sql_mode="";
 
 To build the docker
 
-To run the docker
-`docker run  -p 5000:5000 --rm leguark/smartvp-server:version-0.1`
+To run the a container e.g.
+
+  `docker run  -p 5000:5000 --rm leguark/smartvp:v0.2.7`
+  
