@@ -45,8 +45,8 @@ class GeoModelsIndexView(Resource):
     @api_ns_smart_vp.doc()
     def get(self):
         """Returns a list of all geomodel available for loading"""
-        # path = "/home/smartVP/SMART_VP_server/test/data/cache_db/workspace.json"
-        path = r"H:\PycharmProjects\smart-vp-server\test\data\cache_db\workspace.json"
+        path = "/home/smartVP/SMART_VP_server/test/data/cache_db/workspace.json"
+        #path = r"H:\PycharmProjects\smart-vp-server\test\data\cache_db\workspace.json"
         with open(path) as json_file:
             data = json.load(json_file)
 
